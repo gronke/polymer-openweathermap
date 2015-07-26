@@ -1,0 +1,36 @@
+<!doctype html>
+<head>
+  <title>openweathermap</title>
+
+  <script src="../../webcomponentsjs/webcomponents.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <script src="../../test-fixture/test-fixture-mocha.js"></script>
+
+  <link rel="import" href="../../polymer/polymer.html">
+  <link rel="import" href="../../test-fixture/test-fixture.html">
+  <link rel="import" href="../polymer-openweathermap.html">
+</head>
+<body>
+  <test-fixture id="OpenWeatherMap">
+    <template>
+      <openweathermap></openweathermap>
+    </template>
+  </test-fixture>
+  <script>
+
+  suite('<openweathermap>', function() {
+
+    var el;
+
+    setup(function () {
+      el = fixture('OpenWeatherMap');
+    });
+
+    suite('basic usage', function() {
+
+    });
+
+  });
+
+  </script>
+</body>
