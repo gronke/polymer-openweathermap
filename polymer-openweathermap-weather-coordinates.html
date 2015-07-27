@@ -1,7 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="./behaviors/openweathermap-api.html">
 
-<dom-module id="openweathermap-weather-city">
+<dom-module id="openweathermap-weather-coordinates">
   <template>
     <span>{{result}}</span>
   </template>
@@ -10,25 +10,29 @@
 
   Polymer({
 
-    is: 'openweathermap-weather-city',
+    is: 'openweathermap-weather-coordinates',
     behaviors: [OpenWeatherMapApiBehavior],
-
     properties: {
 
-      'city': {
+      'lat': {
+        type: String
+      },
+
+      'lng': {
         type: String
       }
 
     },
 
     observers: [
-      'poll(city)'
+      'poll(lat, lng)'
     ],
 
     generateQueryString: function() {
 
       return this._generateQueryString({
-        q: this.city
+        lat: this.lat,
+        lon: this.lng
       });
 
     }

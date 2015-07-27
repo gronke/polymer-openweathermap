@@ -1,0 +1,80 @@
+<!doctype html>
+<head>
+  <title>openweathermap-weather-coordinates</title>
+
+  <script src="../../webcomponentsjs/webcomponents.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <script src="../../test-fixture/test-fixture-mocha.js"></script>
+
+  <link rel="import" href="../../polymer/polymer.html">
+  <link rel="import" href="../../test-fixture/test-fixture.html">
+  <link rel="import" href="../polymer-openweathermap-weather-coordinates.html">
+</head>
+<body>
+  <test-fixture id="OpenWeatherMapWeatherCoordinates">
+    <template>
+      <openweathermap-weather-coordinates base-url=""></openweathermap-weather-coordinates>
+    </template>
+  </test-fixture>
+  <script>
+
+  suite('<openweathermap-weather-coordinates>', function() {
+
+    setup(function() {
+      server = sinon.fakeServer.create();
+      server.respondWith(
+        'GET',
+        /\/weather\?lat=.*&lon=.*/,
+        [
+          200,
+          { 'Content-Type': 'application/json' },
+          '{"success": "true"}'
+        ]
+      );
+    });
+
+    suite('url generation', function() {
+
+      var el;
+      setup(function () {
+        el = fixture('OpenWeatherMapWeatherCoordinates');
+      });
+
+      test('query string is generated properly', function() {
+
+        el.lat = 35;
+        el.lng = 139;
+        server.respond();
+        expect(el.generateUrl()).to.be.equal('/weather?lat=35&lon=139');
+
+      });
+
+    });
+
+    suite('api requests', function() {
+
+      var el;
+      setup(function () {
+        el = fixture('OpenWeatherMapWeatherCoordinates');
+      });
+
+      test('can request weather data for coordinates', function(done) {
+
+        el.lat = 35;
+        el.lng = 139;
+        server.respond();
+        
+        el.addEventListener('result-changed', function() {
+          expect(el.result.success).to.be.equal('true');
+          done();
+        });
+
+      });
+      
+      
+    });
+
+  });
+
+  </script>
+</body>

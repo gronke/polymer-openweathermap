@@ -72,6 +72,10 @@
 
     },
 
+    generateUrl: function() {
+      return this._generateUrl() + '?' + this.generateQueryString();
+    },
+
     poll: function() {
 
       var self = this;
