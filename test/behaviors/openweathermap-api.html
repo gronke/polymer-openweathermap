@@ -1,0 +1,71 @@
+<!doctype html>
+<head>
+  <title>OpenWeatherMapApiBehavior</title>
+
+  <script src="../../../webcomponentsjs/webcomponents.js"></script>
+  <script src="../../../web-component-tester/browser.js"></script>
+  <script src="../../../test-fixture/test-fixture-mocha.js"></script>
+
+  <link rel="import" href="../../../polymer/polymer.html">
+  <link rel="import" href="../../../test-fixture/test-fixture.html">
+
+  <link rel="import" href="../../behaviors/openweathermap-api.html">
+</head>
+<body>
+
+  <script>
+    Polymer({
+      is: 'openweathermap-api-behavior-mock',
+      behaviors: [OpenWeatherMapApiBehavior]
+    });
+  </script>
+
+  <test-fixture id="OpenWeatherMapApiBehaviorMock">
+    <template>
+      <openweathermap-api-behavior-mock></openweathermap-api-behavior-mock>
+    </template>
+  </test-fixture>
+  
+  <script>
+
+  
+  suite('<openweathermap-api-behavior-mock>', function() {
+    
+    suite('query strings', function() {
+
+      var el;
+      setup(function() {
+        el = fixture('OpenWeatherMapApiBehaviorMock');
+      });
+
+      test('are empty when no api key and additional inputs are provided', function() {
+        expect(el._generateQueryString()).to.be.equal('');
+      });
+
+      test('api key is handled properly', function() {
+        el.apiKey = 'abc123';
+        expect(el._generateQueryString()).to.be.equal('APPID=abc123');
+      });
+
+    });
+
+    suite('generated urls', function() {
+
+      var el;
+      setup(function() {
+        el = fixture('OpenWeatherMapApiBehaviorMock');
+      });
+
+      test('begin with baseUrl', function() {
+        var baseUrl = el.baseUrl;
+        expect(baseUrl).to.not.be.equal('');
+        expect(el._generateUrl().indexOf(baseUrl)).to.be.equal(0);
+      });
+
+    });
+
+  });
+
+  </script>
+
+</body>

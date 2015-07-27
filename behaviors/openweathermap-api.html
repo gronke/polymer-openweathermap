@@ -1,0 +1,80 @@
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<script>
+  
+  OpenWeatherMapApiBehavior = {
+
+    properties: {
+
+      'baseUrl': {
+        type: String,
+        value: 'http://api.openweathermap.org/data/2.5'
+      },
+
+      'apiKey': {
+        type: String
+      },
+
+      'units': {
+        type: String,
+        value: 'metric'
+      },
+
+      'type': {
+        type: String,
+        value: 'weather' // forecast5, forecast16
+      },
+
+      'result': {
+        type: Object,
+        notify: true
+      },
+
+      'polling': {
+        type: Boolean,
+        value: false,
+        notify: true
+      }
+
+    },
+
+    _generateUrl: function() {
+      return this.baseUrl + '/' + this.type;
+    },
+
+    _generateQueryString: function(additionalQueryParams) {
+      
+      var queryParams = {};
+
+      if(this.apiKey) {
+        queryParams.APPID = this.apiKey;
+      }
+
+      var key, queryString = '';
+
+      if(additionalQueryParams instanceof Object) {
+        for(key in Object.keys(additionalQueryParams)) {
+          if(additionalQueryParams.hasOwnProperty(key)) {
+            queryParams[key] = additionalQueryParams[key];
+          }
+        }
+      }
+
+      for(key in queryParams) {
+        if(queryParams.hasOwnProperty(key)) {
+          queryString += encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]);
+        }
+      }
+
+      return queryString;
+
+    },
+
+    poll: function() {
+
+      this.polling = true;
+
+    }
+
+  };
+
+</script>
