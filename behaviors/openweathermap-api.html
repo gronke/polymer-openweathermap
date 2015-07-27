@@ -1,4 +1,4 @@
-<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../../iron-ajax/iron-ajax.html">
 <script>
   
   OpenWeatherMapApiBehavior = {
@@ -29,12 +29,15 @@
         notify: true
       },
 
-      'polling': {
-        type: Boolean,
-        value: false,
+      'request': {
+        type: Object,
         notify: true
       }
 
+    },
+
+    ready: function() {
+      this.xhr = document.createElement('iron-ajax');
     },
 
     _generateUrl: function() {
@@ -49,10 +52,10 @@
         queryParams.APPID = this.apiKey;
       }
 
-      var key, queryString = '';
+      var key, query = [];
 
       if(additionalQueryParams instanceof Object) {
-        for(key in Object.keys(additionalQueryParams)) {
+        for(key in additionalQueryParams) {
           if(additionalQueryParams.hasOwnProperty(key)) {
             queryParams[key] = additionalQueryParams[key];
           }
@@ -61,17 +64,25 @@
 
       for(key in queryParams) {
         if(queryParams.hasOwnProperty(key)) {
-          queryString += encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]);
+          query.push(encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]));
         }
       }
 
-      return queryString;
+      return query.join('&');
 
     },
 
     poll: function() {
 
-      this.polling = true;
+      var self = this;
+
+      this.xhr.method = 'GET';
+      this.xhr.url = this.generateUrl();
+
+      this.request = this.xhr.generateRequest();
+      this.request.completes.then(function(request) {
+        self.result = self.xhr.lastResponse;
+      });
 
     }
 

@@ -1,0 +1,78 @@
+<!doctype html>
+<head>
+  <title>openweathermap-weather-city</title>
+
+  <script src="../../webcomponentsjs/webcomponents.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <script src="../../test-fixture/test-fixture-mocha.js"></script>
+
+  <link rel="import" href="../../polymer/polymer.html">
+  <link rel="import" href="../../test-fixture/test-fixture.html">
+  <link rel="import" href="../polymer-openweathermap-weather-city.html">
+</head>
+<body>
+  <test-fixture id="OpenWeatherMapWeatherCity">
+    <template>
+      <openweathermap-weather-city base-url=""></openweathermap-weather-city>
+    </template>
+  </test-fixture>
+  <script>
+
+  suite('<openweathermap-weather-city>', function() {
+
+    setup(function() {
+      server = sinon.fakeServer.create();
+      server.respondWith(
+        'GET',
+        /\/weather\?q=.*/,
+        [
+          200,
+          { 'Content-Type': 'application/json' },
+          '{"success": "true"}'
+        ]
+      );
+    });
+
+    suite('url generation', function() {
+
+      var el;
+      setup(function () {
+        el = fixture('OpenWeatherMapWeatherCity');
+      });
+
+      test('query string is generated properly', function() {
+
+        el.city = 'Trier, DE';
+        server.respond();
+        expect(el.generateUrl()).to.be.equal('/weather?q=Trier%2C%20DE');
+
+      });
+
+    });
+
+    suite('api requests', function() {
+
+      var el;
+      setup(function () {
+        el = fixture('OpenWeatherMapWeatherCity');
+      });
+
+      test('can request weather data for Trier, DE', function(done) {
+
+        el.city = 'Trier, DE';
+        server.respond();
+        
+        el.addEventListener('result-changed', function() {
+          expect(el.result.success).to.be.equal('true');
+          done();
+        });
+
+      });
+      
+      
+    });
+
+  });
+
+  </script>
+</body>

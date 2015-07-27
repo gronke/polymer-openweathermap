@@ -47,6 +47,20 @@
         expect(el._generateQueryString()).to.be.equal('APPID=abc123');
       });
 
+      test('additional query parameters can be added', function() {
+        el.apiKey = 'abc123';
+        expect(el._generateQueryString({
+          foo: 'bar'
+        })).to.be.equal('APPID=abc123&foo=bar');
+      });
+
+      test('api key can be overridden with an additional parameter', function() {
+        el.apiKey = 'abc123';
+        expect(el._generateQueryString({
+          APPID: 'def456'
+        })).to.be.equal('APPID=def456');
+      });
+
     });
 
     suite('generated urls', function() {

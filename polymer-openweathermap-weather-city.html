@@ -1,0 +1,42 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="./behaviors/openweathermap-api.html">
+
+<dom-module id="openweathermap-weather-city">
+  <template>
+    <span>{{result}}</span>
+  </template>
+</dom-module>
+<script>
+
+  Polymer({
+
+    is: 'openweathermap-weather-city',
+    behaviors: [OpenWeatherMapApiBehavior],
+
+    properties: {
+
+      'city': {
+        type: String
+      }
+
+    },
+
+    observers: [
+      'poll(city)'
+    ],
+
+    generateQueryString: function() {
+
+      return this._generateQueryString({
+        q: this.city
+      });
+
+    },
+
+    generateUrl: function() {
+      return this._generateUrl() + '?' + this.generateQueryString();
+    }
+
+  });
+
+</script>
