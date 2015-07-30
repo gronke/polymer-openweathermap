@@ -60,6 +60,7 @@
       test('can request weather data for Trier, DE', function(done) {
 
         el.city = 'Trier, DE';
+        el.flush();
         server.respond();
         
         el.addEventListener('result-changed', function() {

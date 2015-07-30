@@ -62,6 +62,7 @@
 
         el.lat = 35;
         el.lng = 139;
+        el.flush();
         server.respond();
         
         el.addEventListener('result-changed', function() {
@@ -71,7 +72,49 @@
 
       });
       
-      
+    });
+
+    suite('polling on lat/lng change is debounced', function() {
+
+      var el, count = 0;
+      setup(function() {
+        el = fixture('OpenWeatherMapWeatherCoordinates');
+
+        el.requestData = function() {
+          count++;
+        };
+      });
+
+      test('initial setting of lat/lng does not bounce', function(done) {
+        el.lat = 35;
+        el.lng = 139;
+
+        setTimeout(function() {
+          expect(count).to.be.equal(1);
+          done();
+        },50);
+      });
+
+      test('change of lat/lng does not bounce', function(done) {
+        el.lat = 36;
+        el.lng = 140;
+        el.flush();
+
+        setTimeout(function() {
+          expect(count).to.be.equal(2);
+          done();
+        },50);
+      });
+
+      test('change of lat does not bounce', function(done) {
+        el.lat = 37;
+
+        setTimeout(function() {
+          expect(count).to.be.equal(3);
+          done();
+        },50);
+      });
+
     });
 
   });

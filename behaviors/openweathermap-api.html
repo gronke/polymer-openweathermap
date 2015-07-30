@@ -80,6 +80,16 @@
 
       var self = this;
 
+      this.debounce('poll', function() {
+        self.requestData();
+      });      
+
+    },
+
+    requestData: function() {
+
+      var self = this;
+
       this.xhr.method = 'GET';
       this.xhr.url = this.generateUrl();
 
@@ -88,6 +98,10 @@
         self.result = self.xhr.lastResponse;
       });
 
+    },
+
+    flush: function() {
+      this.flushDebouncer('poll');
     }
 
   };
