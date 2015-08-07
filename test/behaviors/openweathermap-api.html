@@ -16,7 +16,10 @@
   <script>
     Polymer({
       is: 'openweathermap-api-behavior-mock',
-      behaviors: [OpenWeatherMapApiBehavior]
+      behaviors: [OpenWeatherMapApiBehavior],
+      generateQueryString: function() {
+        return 'foo=bar';
+      }
     });
   </script>
 
@@ -75,6 +78,85 @@
         expect(baseUrl).to.not.be.equal('');
         expect(el._generateUrl().indexOf(baseUrl)).to.be.equal(0);
       });
+
+    });
+
+    suite('solar state detection', function() {
+
+      var el, timeOffset = 100;
+
+      setup(function() {
+
+        el = fixture('OpenWeatherMapApiBehaviorMock');
+
+        server = sinon.fakeServer.create();
+        server.respondWith(
+          'GET',
+          /\/weather\?foo=bar/,
+          [
+            200,
+            { 'Content-Type': 'application/json' },
+            JSON.stringify({
+              sys: {
+                sunrise: ((new Date()).getTime() / 1000) + 1,
+                sunset: ((new Date()).getTime() / 1000) + 2
+              }
+            })
+          ]
+        );
+
+        el.requestData();
+        server.respond();
+
+      });
+
+      test('response contains valid data', function(done) {
+
+        el.addEventListener('result-changed', function() {
+          
+          expect(el.result).to.be.a('object');
+          
+          var s = el.getSolarTimes();
+          expect(s).to.be.a('object');
+          expect(s.sunrise instanceof Date).to.be.equal(true);
+          expect(s.sunset instanceof Date).to.be.equal(true);
+
+
+          done();
+
+        });
+
+      });
+
+      test('initial state is night', function(done) {
+
+        el.addEventListener('result-changed', function() {
+          expect(el.isDay()).to.be.equal(false);
+          done();
+        });
+
+      });
+
+      test('after one second the state is day', function(done) {
+
+        el.addEventListener('result-changed', function() {
+          setTimeout(function() {
+            expect(el.isDay()).to.be.equal(true);
+            done();
+          }, 1000 + timeOffset);
+        });
+
+      });
+
+      test('after two seconds it\'s night again', function(done) {
+
+        setTimeout(function() {
+          expect(el.isDay()).to.be.equal(false);
+          done();
+        }, 2000 + timeOffset);
+
+      });
+
 
     });
 

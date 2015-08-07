@@ -102,6 +102,22 @@
 
     flush: function() {
       this.flushDebouncer('poll');
+    },
+
+    getSolarTimes: function() {
+      return {
+        sunrise: new Date(this.result.sys.sunrise * 1000),
+        sunset: new Date(this.result.sys.sunset * 1000)
+      }
+    },
+
+    isDay: function() {
+
+      var t = (new Date()).getTime(),
+          s = this.getSolarTimes();
+
+      return ((t > s.sunrise.getTime()) && (t < s.sunset.getTime()));
+
     }
 
   };
