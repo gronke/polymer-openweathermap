@@ -1,8 +1,8 @@
 {
   "name": "polymer-openweathermap",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "dependencies": {
-    "polymer": "~1.0.5"
+    "polymer": "~1.0.8"
   },
   "devDependencies": {
     "test-fixture": "polymerelements/test-fixture#^1.0.0",
