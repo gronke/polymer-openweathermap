@@ -1,6 +1,6 @@
 {
   "name": "polymer-openweathermap",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Polymer element that queries data from OpenWeatherMap API",
   "main": "index.js",
   "directories": {
