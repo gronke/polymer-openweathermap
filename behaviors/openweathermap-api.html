@@ -7,7 +7,7 @@
 
       'baseUrl': {
         type: String,
-        value: 'http://api.openweathermap.org/data/2.5'
+        value: 'http://api.openweathermap.org/data/2.5/'
       },
 
       'apiKey': {
@@ -41,7 +41,7 @@
     },
 
     _generateUrl: function() {
-      return this.baseUrl + '/' + this.type;
+      return this.baseUrl + this.type;
     },
 
     _generateQueryString: function(additionalQueryParams) {
