@@ -7,7 +7,7 @@
     "test": "test"
   },
   "dependencies": {
-    "express": "^4.12.3",
+    "express": "^4.13.3",
     "web-component-tester": "git://github.com/polymer/web-component-tester.git"
   },
   "devDependencies": {},
