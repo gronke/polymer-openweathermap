@@ -24,7 +24,7 @@
       server = sinon.fakeServer.create();
       server.respondWith(
         'GET',
-        /\/weather\?lat=.*&lon=.*/,
+        /\/?weather\?lat=.*&lon=.*/,
         [
           200,
           { 'Content-Type': 'application/json' },
@@ -45,7 +45,7 @@
         el.lat = 35;
         el.lng = 139;
         server.respond();
-        expect(el.generateUrl()).to.be.equal('/weather?lat=35&lon=139');
+        expect(el.generateUrl()).to.be.equal('weather?lat=35&lon=139');
 
       });
 

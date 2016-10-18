@@ -24,7 +24,7 @@
       server = sinon.fakeServer.create();
       server.respondWith(
         'GET',
-        /\/weather\?q=.*/,
+        /\/?weather\?q=.*/,
         [
           200,
           { 'Content-Type': 'application/json' },
@@ -44,7 +44,7 @@
 
         el.city = 'Trier, DE';
         server.respond();
-        expect(el.generateUrl()).to.be.equal('/weather?q=Trier%2C%20DE');
+        expect(el.generateUrl()).to.be.equal('weather?q=Trier%2C%20DE');
 
       });
 
