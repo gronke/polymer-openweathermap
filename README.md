@@ -22,7 +22,11 @@ Demo
 <custom-element-demo>
   <template>
     <link rel=”import” href=”polymer-openweathermap-coordinates.html”>
-    <openweathermap-weather-coordinates lat="37.773972" lng="-122.431297" result="{{result}}" />
+    <openweathermap-weather-coordinates
+      lat="37.773972"
+      lng="-122.431297"
+      result="{{result}}">
+    </openweathermap-weather-coordinates>
     <pre>{{result}}</pre>
   </template>    
 </custom-element-demo>
@@ -30,5 +34,10 @@ Demo
 -->
 
 ```html
-<openweathermap-weather-coordinates lat="37.773972" lng="-122.431297" result="{{result}}" />
+<openweathermap-weather-coordinates
+  lat="37.773972"
+  lng="-122.431297"
+  result="{{result}}">
+</openweathermap-weather-coordinates>
+<pre>{{result}}</pre>
 ```
